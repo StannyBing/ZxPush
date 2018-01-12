@@ -15,6 +15,7 @@
  */
 package com.android.xmpp.notification;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,10 +34,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * Service that continues to run in background and respond to the push 
+ * Service that continues to run in background and respond to the push
  * notification events from the server. This should be registered as service
- * in AndroidManifest.xml. 
- * 
+ * in AndroidManifest.xml.
+ *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
 public class NotificationService extends Service {
@@ -44,7 +45,7 @@ public class NotificationService extends Service {
     private static final String LOGTAG = LogUtil
             .makeLogTag(NotificationService.class);
 
-//    public static final String SERVICE_NAME = "org.androidpn.client.NotificationService";
+    //    public static final String SERVICE_NAME = "org.androidpn.client.NotificationService";
     public static final String SERVICE_NAME = "com.android.xmpp.notification.NotificationService";
 
     private TelephonyManager telephonyManager;
@@ -80,6 +81,7 @@ public class NotificationService extends Service {
         taskTracker = new TaskTracker(this);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onCreate() {
         Log.d(LOGTAG, "onCreate()...");
@@ -91,10 +93,13 @@ public class NotificationService extends Service {
                 Context.MODE_PRIVATE);
 
         // Get deviceId
-//        deviceId = telephonyManager.getDeviceId();
+        if (telephonyManager == null) {
+            telephonyManager = ZXPush.xmppUtil.getTelephonyManager();
+            deviceId = telephonyManager.getDeviceId();
+        }
         // Log.d(LOGTAG, "deviceId=" + deviceId);
         Editor editor = sharedPrefs.edit();
-        editor.putString(Constants.DEVICE_ID, ZXPush.xmppUtil.getDeviceId());
+        editor.putString(Constants.DEVICE_ID, deviceId);
         editor.commit();
 
         // If running on an emulator
@@ -210,8 +215,10 @@ public class NotificationService extends Service {
 
     private void registerConnectivityReceiver() {
         Log.d(LOGTAG, "registerConnectivityReceiver()...");
-        telephonyManager.listen(phoneStateListener,
-                PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+        if (telephonyManager != null) {
+            telephonyManager.listen(phoneStateListener,
+                    PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+        }
         IntentFilter filter = new IntentFilter();
         // filter.addAction(android.net.wifi.WifiManager.NETWORK_STATE_CHANGED_ACTION);
         filter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
@@ -220,8 +227,10 @@ public class NotificationService extends Service {
 
     private void unregisterConnectivityReceiver() {
         Log.d(LOGTAG, "unregisterConnectivityReceiver()...");
-        telephonyManager.listen(phoneStateListener,
-                PhoneStateListener.LISTEN_NONE);
+        if (telephonyManager != null) {
+            telephonyManager.listen(phoneStateListener,
+                    PhoneStateListener.LISTEN_NONE);
+        }
         unregisterReceiver(connectivityReceiver);
     }
 

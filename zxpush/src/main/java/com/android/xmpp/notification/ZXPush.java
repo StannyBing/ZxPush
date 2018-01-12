@@ -1,7 +1,6 @@
 package com.android.xmpp.notification;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,17 +32,16 @@ public class ZXPush {
 
     private Context context;
 
-    private String deviceId;
+    private TelephonyManager telephonyManager;
 
-    public String getDeviceId() {
-        return deviceId;
+    public TelephonyManager getTelephonyManager() {
+        return telephonyManager;
     }
 
-    @SuppressLint("MissingPermission")
-    private void setDeviceId() {
+    private void setTelephonyManager() {
         try {
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            this.deviceId = telephonyManager.getDeviceId();
+            this.telephonyManager = telephonyManager;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +55,7 @@ public class ZXPush {
         if (xmppUtil == null) {
             xmppUtil = new ZXPush();
             xmppUtil.context = context;
-            xmppUtil.setDeviceId();
+            xmppUtil.setTelephonyManager();
         }
         return xmppUtil;
     }
