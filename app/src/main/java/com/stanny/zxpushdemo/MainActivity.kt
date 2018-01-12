@@ -4,7 +4,7 @@ import android.Manifest
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
-import com.android.xmpp.notification.PushUtil
+import com.android.xmpp.notification.ZXPush
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        PushUtil.getInstance(this)
+        ZXPush.getInstance(this)
                 .setApiKey("f84ca4bfd615132356a909b6d2cc26d7")
                 .setUseName("xb")
                 .setIp("118.178.194.75", 5222)
@@ -37,6 +37,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        PushUtil.getInstance(this).stopService()
+        ZXPush.getInstance(this).stopService()
     }
 }

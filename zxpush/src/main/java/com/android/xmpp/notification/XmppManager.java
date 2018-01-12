@@ -217,7 +217,7 @@ public class XmppManager {
 
     private String newRandomUUID() {
 //        String uuidRaw = UUID.randomUUID().toString();
-    	String uuidRaw = PushUtil.getInstance(context).getApiKey()+"_"+ PushUtil.getInstance(context).getUseName();
+    	String uuidRaw = ZXPush.getInstance(context).getApiKey()+"_"+ ZXPush.getInstance(context).getUseName();
 //    	String uuidRaw = "1234567890_ypx";
         return uuidRaw;
     }

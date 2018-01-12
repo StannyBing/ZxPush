@@ -83,7 +83,7 @@ public class NotificationService extends Service {
     @Override
     public void onCreate() {
         Log.d(LOGTAG, "onCreate()...");
-        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         // wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         // connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -91,10 +91,10 @@ public class NotificationService extends Service {
                 Context.MODE_PRIVATE);
 
         // Get deviceId
-        deviceId = telephonyManager.getDeviceId();
+//        deviceId = telephonyManager.getDeviceId();
         // Log.d(LOGTAG, "deviceId=" + deviceId);
         Editor editor = sharedPrefs.edit();
-        editor.putString(Constants.DEVICE_ID, deviceId);
+        editor.putString(Constants.DEVICE_ID, ZXPush.xmppUtil.getDeviceId());
         editor.commit();
 
         // If running on an emulator

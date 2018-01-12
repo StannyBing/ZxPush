@@ -56,10 +56,10 @@ public final class ServiceManager {
         sharedPrefs = context.getSharedPreferences(
                 Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         Editor editor = sharedPrefs.edit();
-        editor.putString(Constants.API_KEY, PushUtil.getInstance(context).getApiKey());
+        editor.putString(Constants.API_KEY, ZXPush.getInstance(context).getApiKey());
         editor.putString(Constants.VERSION, version);
-        editor.putString(Constants.XMPP_HOST, PushUtil.getInstance(context).getIp());
-        editor.putInt(Constants.XMPP_PORT, PushUtil.getInstance(context).getPort());
+        editor.putString(Constants.XMPP_HOST, ZXPush.getInstance(context).getIp());
+        editor.putInt(Constants.XMPP_PORT, ZXPush.getInstance(context).getPort());
         editor.putString(Constants.CALLBACK_ACTIVITY_PACKAGE_NAME,
                 callbackActivityPackageName);
         editor.putString(Constants.CALLBACK_ACTIVITY_CLASS_NAME,

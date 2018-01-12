@@ -1,15 +1,17 @@
 package com.android.xmpp.notification;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.telephony.TelephonyManager;
 
-public class PushUtil {
+public class ZXPush {
 
-    private static PushUtil xmppUtil;
+    public static ZXPush xmppUtil;
 
     private String apiKey = "";
 
@@ -31,15 +33,31 @@ public class PushUtil {
 
     private Context context;
 
+    private String deviceId;
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    @SuppressLint("MissingPermission")
+    private void setDeviceId() {
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            this.deviceId = telephonyManager.getDeviceId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public int getPort() {
         return port;
     }
 
-    public static PushUtil getInstance(Context context) {
+    public static ZXPush getInstance(Context context) {
         if (xmppUtil == null) {
-            xmppUtil = new PushUtil();
+            xmppUtil = new ZXPush();
             xmppUtil.context = context;
+            xmppUtil.setDeviceId();
         }
         return xmppUtil;
     }
@@ -56,7 +74,7 @@ public class PushUtil {
         return defaultIntent;
     }
 
-    public PushUtil setDefaultIntentInfo(Activity intentActivty, int icon) {
+    public ZXPush setDefaultIntentInfo(Activity intentActivty, int icon) {
         this.icon = icon;
         appName = getMyAppName(intentActivty);
         defaultIntent = intentActivty.getIntent();
@@ -88,7 +106,7 @@ public class PushUtil {
         return apiKey;
     }
 
-    public PushUtil setApiKey(String apiKey) {
+    public ZXPush setApiKey(String apiKey) {
         this.apiKey = apiKey;
         return this;
     }
@@ -97,7 +115,7 @@ public class PushUtil {
         return useName;
     }
 
-    public PushUtil setUseName(String useName) {
+    public ZXPush setUseName(String useName) {
         this.useName = useName;
         return this;
     }
@@ -106,7 +124,7 @@ public class PushUtil {
         return ip;
     }
 
-    public PushUtil setIp(String ip, int port) {
+    public ZXPush setIp(String ip, int port) {
         this.ip = ip;
         this.port = port;
         return this;
@@ -128,7 +146,7 @@ public class PushUtil {
         }
     }
 
-    public PushUtil setOnPushListener(OnPushListener onPushListener) {
+    public ZXPush setOnPushListener(OnPushListener onPushListener) {
         this.onPushListener = onPushListener;
         return this;
     }

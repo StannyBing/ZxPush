@@ -57,9 +57,9 @@ public final class NotificationReceiver extends BroadcastReceiver {
             pushEntity.setNotificationFrom(intent.getStringExtra(Constants.NOTIFICATION_FROM));
             pushEntity.setPacketId(intent.getStringExtra(Constants.PACKET_ID));
 
-            if (PushUtil.getInstance(context).getOnPushListener() != null) {
-                PushUtil.getInstance(context).getOnPushListener().onPushReceive(pushEntity);
-            } else if (PushUtil.getInstance(context).getDefaultIntent() != null) {
+            if (ZXPush.getInstance(context).getOnPushListener() != null) {
+                ZXPush.getInstance(context).getOnPushListener().onPushReceive(pushEntity);
+            } else if (ZXPush.getInstance(context).getDefaultIntent() != null) {
                 showNitify(context, pushEntity);
             } else {
                 throw new RuntimeException("OnPushListener or DefaultIntent, you need to set up at least one");
@@ -71,15 +71,15 @@ public final class NotificationReceiver extends BroadcastReceiver {
 
     private void showNitify(Context context, PushEntity pushEntity) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent openintent = PushUtil.getInstance(context).getDefaultIntent();
+        Intent openintent = ZXPush.getInstance(context).getDefaultIntent();
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, openintent, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(PushUtil.getInstance(context).getIcon())
+                .setSmallIcon(ZXPush.getInstance(context).getIcon())
                 .setTicker("您有新的消息！")
-                .setContentTitle(pushEntity.getNotificationTitle().length() == 0 ? PushUtil.getInstance(context).getAppName() : pushEntity.getNotificationTitle())
+                .setContentTitle(pushEntity.getNotificationTitle().length() == 0 ? ZXPush.getInstance(context).getAppName() : pushEntity.getNotificationTitle())
                 .setContentText(pushEntity.getNotificationMessage())
                 .setContentIntent(contentIntent)
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
