@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.telephony.TelephonyManager;
 
 public class ZXPush {
 
@@ -32,21 +31,6 @@ public class ZXPush {
 
     private Context context;
 
-    private TelephonyManager telephonyManager;
-
-    public TelephonyManager getTelephonyManager() {
-        return telephonyManager;
-    }
-
-    private void setTelephonyManager() {
-        try {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            this.telephonyManager = telephonyManager;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public int getPort() {
         return port;
     }
@@ -55,7 +39,6 @@ public class ZXPush {
         if (xmppUtil == null) {
             xmppUtil = new ZXPush();
             xmppUtil.context = context;
-            xmppUtil.setTelephonyManager();
         }
         return xmppUtil;
     }
@@ -126,10 +109,6 @@ public class ZXPush {
         this.ip = ip;
         this.port = port;
         return this;
-    }
-
-    public ServiceManager getServiceManager() {
-        return serviceManager;
     }
 
     public ServiceManager startService() {

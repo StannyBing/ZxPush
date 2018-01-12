@@ -81,20 +81,18 @@ public class NotificationService extends Service {
         taskTracker = new TaskTracker(this);
     }
 
-    @SuppressLint("MissingPermission")
     @Override
     public void onCreate() {
         Log.d(LOGTAG, "onCreate()...");
-//        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        // wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        // connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+//         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         sharedPrefs = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME,
                 Context.MODE_PRIVATE);
 
         // Get deviceId
         if (telephonyManager == null) {
-            telephonyManager = ZXPush.xmppUtil.getTelephonyManager();
             deviceId = telephonyManager.getDeviceId();
         }
         // Log.d(LOGTAG, "deviceId=" + deviceId);
