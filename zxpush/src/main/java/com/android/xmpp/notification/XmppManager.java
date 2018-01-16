@@ -423,8 +423,8 @@ public class XmppManager {
 
                 try {
                     xmppManager.getConnection().login(
-                            xmppManager.getUsername(),
-                            xmppManager.getPassword(), XMPP_RESOURCE_NAME);
+                            newRandomUUID(),
+                            newRandomUUID(), XMPP_RESOURCE_NAME);
                     Log.d(LOGTAG, "Loggedn in successfully");
 
                     // connection listener
