@@ -42,7 +42,7 @@ import java.util.concurrent.Future;
 
 /**
  * This class is to manage the XMPP connection between client and server.
- * 
+ *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
 public class XmppManager {
@@ -50,7 +50,7 @@ public class XmppManager {
     private static final String LOGTAG = LogUtil.makeLogTag(XmppManager.class);
 
     private static final String XMPP_RESOURCE_NAME = "AndroidpnClient";
-    
+
     private Context context;
 
     private NotificationService.TaskSubmitter taskSubmitter;
@@ -82,7 +82,7 @@ public class XmppManager {
     private Future<?> futureTask;
 
     private Thread reconnection;
-    
+
 
     public XmppManager(NotificationService notificationService) {
         context = notificationService;
@@ -217,7 +217,7 @@ public class XmppManager {
 
     private String newRandomUUID() {
 //        String uuidRaw = UUID.randomUUID().toString();
-    	String uuidRaw = ZXPush.getInstance(context).getApiKey()+"_"+ ZXPush.getInstance(context).getUseName();
+        String uuidRaw = ZXPush.getInstance(context).getApiKey() + "_" + ZXPush.getInstance(context).getUseName();
 //    	String uuidRaw = "1234567890_ypx";
         return uuidRaw;
     }
@@ -264,7 +264,7 @@ public class XmppManager {
                     taskTracker.decrease();
                 }
             } else {
-            	//解决服务器端重启后,客户端不能成功连接androidpn服务器
+                //解决服务器端重启后,客户端不能成功连接androidpn服务器
                 runTask();
                 taskList.add(runnable);
             }
@@ -280,7 +280,7 @@ public class XmppManager {
     }
 
     /**
-     * A runnable task to connect the server. 
+     * A runnable task to connect the server.
      */
     private class ConnectTask implements Runnable {
 
@@ -329,7 +329,7 @@ public class XmppManager {
     }
 
     /**
-     * A runnable task to register a new user onto the server. 
+     * A runnable task to register a new user onto the server.
      */
     private class RegisterTask implements Runnable {
 
@@ -360,8 +360,8 @@ public class XmppManager {
                             IQ response = (IQ) packet;
                             if (response.getType() == IQ.Type.ERROR) {
                                 if (!response.getError().toString().contains("409")) {
-                                    Log.e(LOGTAG,"Unknown error while registering XMPP account! "
-                                                    + response.getError().getCondition());
+                                    Log.e(LOGTAG, "Unknown error while registering XMPP account! "
+                                            + response.getError().getCondition());
                                 }
                             } else if (response.getType() == IQ.Type.RESULT) {
                                 xmppManager.setUsername(newUsername);
@@ -404,7 +404,7 @@ public class XmppManager {
     }
 
     /**
-     * A runnable task to log into the server. 
+     * A runnable task to log into the server.
      */
     private class LoginTask implements Runnable {
 
@@ -423,8 +423,8 @@ public class XmppManager {
 
                 try {
                     xmppManager.getConnection().login(
-                            newRandomUUID(),
-                            newRandomUUID(), XMPP_RESOURCE_NAME);
+                            xmppManager.getUsername(),
+                            xmppManager.getPassword(), XMPP_RESOURCE_NAME);
                     Log.d(LOGTAG, "Loggedn in successfully");
 
                     // connection listener
@@ -450,7 +450,7 @@ public class XmppManager {
                     String errorMessage = e.getMessage();
                     if (errorMessage != null
                             && errorMessage
-                                    .contains(INVALID_CREDENTIALS_ERROR_CODE)) {
+                            .contains(INVALID_CREDENTIALS_ERROR_CODE)) {
                         xmppManager.reregisterAccount();
                         return;
                     }
