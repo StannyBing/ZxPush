@@ -32,6 +32,7 @@
         <service
             android:name="com.android.xmpp.notification.NotificationService"
             android:enabled="true"
+            android:exported="false"
             android:label="NotificationService">
             <intent-filter>
                 <action android:name="com.android.xmpp.notification.NotificationService"/>

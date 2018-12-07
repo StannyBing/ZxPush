@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://F:\AndroidStudio\AndroidStudio_WorkSpace\ZxPushDemo\PushTest.iml" filepath="F:\AndroidStudio\AndroidStudio_WorkSpace\ZxPushDemo\PushTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/ZxPushDemo.iml" filepath="$PROJECT_DIR$/ZxPushDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/zxpush/zxpush.iml" filepath="$PROJECT_DIR$/zxpush/zxpush.iml" />
