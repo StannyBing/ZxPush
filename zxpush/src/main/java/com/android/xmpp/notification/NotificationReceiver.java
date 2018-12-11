@@ -57,12 +57,14 @@ public final class NotificationReceiver extends BroadcastReceiver {
             pushEntity.setNotificationFrom(intent.getStringExtra(Constants.NOTIFICATION_FROM));
             pushEntity.setPacketId(intent.getStringExtra(Constants.PACKET_ID));
 
-            if (ZXPush.getInstance(context).getOnPushListener() != null) {
-                ZXPush.getInstance(context).getOnPushListener().onPushReceive(pushEntity);
-            } else if (ZXPush.getInstance(context).getDefaultIntent() != null) {
-                showNitify(context, pushEntity);
-            } else {
-                throw new RuntimeException("OnPushListener or DefaultIntent, you need to set up at least one");
+            if (pushEntity.getNotificationApiKey().equals(ZXPush.getInstance(context).getApiKey())) {
+                if (ZXPush.getInstance(context).getOnPushListener() != null) {
+                    ZXPush.getInstance(context).getOnPushListener().onPushReceive(pushEntity);
+                } else if (ZXPush.getInstance(context).getDefaultIntent() != null) {
+                    showNitify(context, pushEntity);
+                } else {
+                    throw new RuntimeException("OnPushListener or DefaultIntent, you need to set up at least one");
+                }
             }
         }
 
