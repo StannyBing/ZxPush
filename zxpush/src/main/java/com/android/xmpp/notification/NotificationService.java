@@ -117,6 +117,7 @@ public class NotificationService extends Service {
         Log.d(LOGTAG, "deviceId=" + deviceId);
 
         xmppManager = new XmppManager(this);
+        xmppManager.reregisterAccount();
         Constants.xmppManager = xmppManager;
         taskSubmitter.submit(new Runnable() {
             public void run() {

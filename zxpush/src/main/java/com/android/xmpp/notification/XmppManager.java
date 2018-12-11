@@ -346,6 +346,9 @@ public class XmppManager {
                 final String newUsername = newRandomUUID();
                 final String newPassword = newRandomUUID();
 
+                xmppManager.setUsername(newUsername);
+                xmppManager.setPassword(newPassword);
+
                 Registration registration = new Registration();
 
                 PacketFilter packetFilter = new AndFilter(new PacketIDFilter(

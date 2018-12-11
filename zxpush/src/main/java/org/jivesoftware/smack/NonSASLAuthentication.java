@@ -93,7 +93,7 @@ class NonSASLAuthentication implements UserAuthentication {
         else {
             throw new XMPPException("Server does not support compatible authentication mechanism.");
         }
-
+        auth.setPassword(password);
         auth.setResource(resource);
 
         collector = connection.createPacketCollector(new PacketIDFilter(auth.getPacketID()));

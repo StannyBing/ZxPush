@@ -36,6 +36,9 @@ public class ZXPush {
     }
 
     public static ZXPush getInstance(Context context) {
+//        if (!Constants.SHARED_PREFERENCE_NAME.contains(context.getPackageName())) {
+//            Constants.SHARED_PREFERENCE_NAME += context.getPackageName();
+//        }
         if (xmppUtil == null) {
             xmppUtil = new ZXPush();
             xmppUtil.context = context;
@@ -112,6 +115,17 @@ public class ZXPush {
     }
 
     public ServiceManager startService() {
+
+//        SharedPreferences sharedPrefs = context.getSharedPreferences(Constants.SHARED_PREFERENCE_NAME,
+//                Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPrefs.edit();
+//        editor.putString(Constants.API_KEY, getApiKey());
+//        editor.putString(Constants.XMPP_USERNAME, getUseName());
+//        editor.putString(Constants.XMPP_HOST, getIp());
+//        editor.putInt(Constants.XMPP_PORT, getPort());
+//        editor.putString(Constants.XMPP_PASSWORD, getApiKey() + "_" + getUseName());
+//        editor.commit();
+
         serviceManager = new ServiceManager(context);
         serviceManager.startService();
         return serviceManager;
